@@ -125,6 +125,31 @@ public class GameController : BaseController<GameController>
                 };
                 return Ok(response);
             case MethodType.MthdLoadRankMatch:
+                response.load_rank_match = new Response.LoadRankMatch
+                {
+                    RankBaseLosePoint = 1,
+                    RankBaseWinPoint = 1,
+                    RankLoseResultBonus = 1,
+                    RankMatchNumDays = 0,
+                    RankWinPointBonus1 = 1,
+                    RankWinPointBonus2 = 1,
+                    RankWinPointBonus3 = 1,
+                    RankLosePointBonus1 = 1,
+                    RankLosePointBonus2 = 1,
+                    RankLosePointBonus3 = 1,
+                    ExxThresholdOrder = 1,
+                    ExxThresholdPoint = 1
+                };
+                return Ok(response);
+            case MethodType.MthdSaveLog:
+                response.save_log = new Response.SaveLog
+                {
+                    LoadGameDataVer = 1
+                };
+                return Ok(response);
+            case MethodType.MthdCheckCommunication:
+                response.check_communication = new Response.CheckCommunication();
+                return Ok(response);
             case MethodType.MthdPreLoadCard:
             case MethodType.MthdLoadCard:
             case MethodType.MthdRegisterCard:
@@ -140,7 +165,6 @@ public class GameController : BaseController<GameController>
             case MethodType.MthdSaveUserPlayResearchData:
             case MethodType.MthdSaveResultCapture:
             case MethodType.MthdSaveFailedBattleLogOn:
-            case MethodType.MthdCheckCommunication:
             case MethodType.MthdLoadAccessCode:
             case MethodType.MthdUsePCoinTicket:
             case MethodType.MthdLoadSpotInfo:
@@ -155,7 +179,6 @@ public class GameController : BaseController<GameController>
             case MethodType.MthdSaveTournamentResult:
             case MethodType.MthdLoadBlackList:
             case MethodType.MthdStartTournament:
-            case MethodType.MthdSaveLog:
             default:
                 return NotFound();
         }
