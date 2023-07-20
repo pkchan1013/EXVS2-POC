@@ -2,6 +2,7 @@
 #include <windows.h>
 
 #include "GameHooks.h"
+#include "JvsEmu.h"
 #include "WindowedDxgi.h"
 
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReserved)
@@ -10,6 +11,7 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReser
     {
     case DLL_PROCESS_ATTACH:
         InitializeHooks();
+        InitializeJvs();
         InitDXGIWindowHook();
         break;
     case DLL_THREAD_ATTACH:

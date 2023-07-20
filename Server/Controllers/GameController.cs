@@ -150,8 +150,37 @@ public class GameController : BaseController<GameController>
             case MethodType.MthdCheckCommunication:
                 response.check_communication = new Response.CheckCommunication();
                 return Ok(response);
-            case MethodType.MthdPreLoadCard:
-            case MethodType.MthdLoadCard:
+            case MethodType.MthdLoadBlackList:
+                response.load_black_list = new Response.LoadBlackList
+                {
+                    ThresholdDelayedRtt = 300,
+                    DelayPermitCondition = 300,
+                    DelayRestrictCondition = 300,
+                    MaxBlacklistNum = 1,
+                    ThresholdDelayedFrame = 5
+                };
+                return Ok(response);
+            case MethodType.MthdSaveTournamentResult:
+                response.save_tournament_result = new Response.SaveTournamentResult();
+                return Ok(response);
+            case MethodType.MthdLoadRanking:
+                response.load_ranking = new Response.LoadRanking();
+                return Ok(response);
+            case MethodType.MthdCheckTelop:
+                response.check_telop = new Response.CheckTelop
+                {
+                    Telop1Id = 1
+                };
+                return Ok(response);
+            case MethodType.MthdLoadTelop:
+                response.load_telop = new Response.LoadTelop
+                {
+                    TelopData = "Test telop"
+                };
+                return Ok(response);
+            case MethodType.MthdCheckMovieRelease:
+                response.check_movie_release = new Response.CheckMovieRelease();
+                return Ok(response);
             case MethodType.MthdRegisterCard:
             case MethodType.MthdSaveVsmResult:
             case MethodType.MthdSaveVsmOnResult:
@@ -168,17 +197,13 @@ public class GameController : BaseController<GameController>
             case MethodType.MthdLoadAccessCode:
             case MethodType.MthdUsePCoinTicket:
             case MethodType.MthdLoadSpotInfo:
-            case MethodType.MthdLoadRanking:
-            case MethodType.MthdCheckTelop:
-            case MethodType.MthdLoadTelop:
-            case MethodType.MthdCheckMovieRelease:
             case MethodType.MthdLoadSpotUrl:
             case MethodType.MthdLoadReplayCard:
             case MethodType.MthdPreSaveReplay:
             case MethodType.MthdLoadMeetingCard:
-            case MethodType.MthdSaveTournamentResult:
-            case MethodType.MthdLoadBlackList:
             case MethodType.MthdStartTournament:
+            case MethodType.MthdPreLoadCard:
+            case MethodType.MthdLoadCard:
             default:
                 return NotFound();
         }

@@ -12,6 +12,7 @@
 static uint8_t gClientMode = 2;
 static std::string gSerial = "284311110001";
 static const auto BASE_ADDRESS = 0x140000000;
+static HANDLE hConnection = (HANDLE)0x1337;
 
 static HWND (WINAPI* CreateWindowExWOri)(DWORD dwExStyle, LPCWSTR lpClassName, LPCWSTR lpWindowName, DWORD dwStyle, int X, int Y, int nWidth, int nHeight, HWND hWndParent, HMENU hMenu, HINSTANCE hInstance, LPVOID lpParam);
 static HWND WINAPI CreateWindowExWHook(DWORD dwExStyle, LPCWSTR lpClassName, LPCWSTR lpWindowName, DWORD dwStyle, int X, int Y, int nWidth, int nHeight, HWND hWndParent, HMENU hMenu, HINSTANCE hInstance, LPVOID lpParam)
@@ -77,7 +78,8 @@ HANDLE __stdcall CreateFileAHook(LPCSTR lpFileName,
     const auto name = std::string_view{lpFileName};
     if (const auto target = "COM"; name.find(target) != std::string::npos)
     {
-        log("CreateFileA with name %s", name.data());
+        log("CreateFileA with COM name %s", name.data());
+        return hConnection;
     }
     log("CreateFileA with name %s", name.data());
     if (name.starts_with("G:") || name.starts_with("F:"))
@@ -119,6 +121,7 @@ HANDLE __stdcall CreateFileWHook(LPCWSTR lpFileName,
     if (const auto target = L"COM"; name.find(target) != std::string::npos)
     {
         log("CreateFileW with COM name %s", name.data());
+        return hConnection;
     }
 
     log("CreateFileW with name %S", name.data());
@@ -169,68 +172,6 @@ static int64_t __fastcall nbamUsbFinderGetSerialNumber(int a1, char* a2)
     return 0;
 }
 
-static int64_t WAJVBeginUpdate()
-{
-    log("WAJVBeginUpdate");
-    return 1;
-}
-
-static int64_t __fastcall WAJVGetStatus()
-{
-    log("WAJVGetStatus");
-    return 1;
-}
-
-static int64_t __fastcall WAJVOpenCommConfig(int64_t a1, int64_t a2)
-{
-    log("WAJVOpenCommConfig, a1: %ld, a2: %ld", a1, a2);
-    return 1;
-}
-
-static int64_t __fastcall WAJVSetOutput(int64_t a1, int64_t* a2)
-{
-    log("WAJVSetOutput, a2: [%ld, %ld, %ld, %ld, %ld, %ld, %ld]", a2[0], a2[1], a2[2], a2[3], a2[4], a2[5], a2[6]);
-    return 1;
-}
-
-static int64_t WAJVGetNodeCount()
-{
-    log("WAJVGetNodeCount");
-    return 1;
-}
-
-static char buffer[256] = {};
-
-static char* __fastcall WAJVGetInput(int64_t a1)
-{
-    log("WAJVGetInput, a1: %ld", a1);
-    return buffer;
-}
-
-static void *WAJVEndUpdateWait()
-{
-    log("WAJVEndUpdateWait");
-    return nullptr;
-}
-
-static int64_t __fastcall WAJVRestartPL(int a1)
-{
-    log("WAJVRestartPL a1: %d", a1);
-    return 0;
-}
-
-static int64_t __fastcall WAJVSetPLLockParameter(int a1, uint16_t a2, char a3)
-{
-    log("WAJVSetPLLockParameter a1: %d, a2: %d, a3: %d", a1, a2, a3);
-    return a2;
-}
-
-static int64_t __fastcall WAJVSetFunctionSettings(int a1, int a2, int64_t a3)
-{
-    log("WAJVSetFunctionSettings a1: %d, a2: %d, a3: %d", a1, a2, a3);
-    return 1;
-}
-
 
 void InitializeHooks()
 {
@@ -252,19 +193,11 @@ void InitializeHooks()
     MH_CreateHookApi(L"nbamUsbFinder.dll", "nbamUsbFinderRelease", nbamUsbFinderRelease, nullptr);
     MH_CreateHookApi(L"nbamUsbFinder.dll", "nbamUsbFinderGetSerialNumber", nbamUsbFinderGetSerialNumber, nullptr);
 
-    MH_CreateHookApi(L"wajvio.dll", "WAJVBeginUpdate", WAJVBeginUpdate, nullptr);
-    MH_CreateHookApi(L"wajvio.dll", "WAJVGetStatus", WAJVGetStatus, nullptr);
-    MH_CreateHookApi(L"wajvio.dll", "WAJVSetOutput", WAJVSetOutput, nullptr);
-    MH_CreateHookApi(L"wajvio.dll", "WAJVGetNodeCount", WAJVGetNodeCount, nullptr);
-    MH_CreateHookApi(L"wajvio.dll", "WAJVOpenCommConfig", WAJVOpenCommConfig, nullptr);
-    MH_CreateHookApi(L"wajvio.dll", "WAJVGetInput", WAJVGetInput, nullptr);
-    MH_CreateHookApi(L"wajvio.dll", "WAJVEndUpdateWait", WAJVEndUpdateWait, nullptr);
-    MH_CreateHookApi(L"wajvio.dll", "WAJVRestartPL", WAJVRestartPL, nullptr);
-    MH_CreateHookApi(L"wajvio.dll", "WAJVSetPLLockParameter", WAJVSetPLLockParameter, nullptr);
-    MH_CreateHookApi(L"wajvio.dll", "WAJVSetFunctionSettings", WAJVSetFunctionSettings, nullptr);
-
     MH_EnableHook(MH_ALL_HOOKS);
 
+    // Create the 25 folder first if it doesn't exist
+    CreateDirectoryA("25" , nullptr);
+    
     INIReader reader("config.ini");
     if (reader.ParseError() == 0)
     {
