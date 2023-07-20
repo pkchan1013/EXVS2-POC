@@ -75,6 +75,12 @@ public class GameController : BaseController<GameController>
             case MethodType.MthdLoadGameData:
                 response.load_game_data = new Response.LoadGameData
                 {
+                    ReleaseMsIds = new []{1u, 2u, 3u},
+                    NewMsIds = new []{1u,2u,3u},
+                    DisplayableMsIds = new []{1u,2u,3u},
+                    ReleaseGuestNavIds = new []{1u,2u},
+                    ReleaseGameRules = new []{1u,2u},
+                    UpdateMsIds = new []{1u},
                     on_vs_info = new Response.LoadGameData.OnVsInfo
                     {
                         RuleTimeLimitRank = 20,
@@ -90,6 +96,37 @@ public class GameController : BaseController<GameController>
                             EchelonId = 1
                         }
                     },
+                    ReleaseCpuCourses =
+                    {
+                        new Response.LoadGameData.ReleaseCpuCourse
+                        {
+                            CourseId = 1,
+                            OpenedAt = (ulong)(DateTimeOffset.Now - TimeSpan.FromDays(10)).ToUnixTimeSeconds()
+                        }
+                    },
+                    ReleaseCpuScenes = new []{1u,2u},
+                    MstMobileSuitIds = new []{1u,2u},
+                    OfflineWinEchelonNums =
+                    {
+                        new Response.LoadGameData.OfflineEchelon
+                        {
+                            Id = 1u,
+                            LowerThreshold = 1,
+                            UpperThreshold = 100,
+                            Point = 1
+                        }
+                    },
+                    OfflineLoseEchelonNums =
+                    {
+                        new Response.LoadGameData.OfflineEchelon
+                        {
+                            Id = 1,
+                            LowerThreshold = 1,
+                            UpperThreshold = 100,
+                            Point = 1
+                        }
+                    },
+                    
                     ReplayUnderEchelonId = 1,
                     AdvancedReplayUnderEchelonId = 1,
                     TrainingTimeLimit = 20,
