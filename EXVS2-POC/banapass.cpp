@@ -203,7 +203,8 @@ const char* BngRwGetVersion() {
 
 ULONGLONG BngRwIsCmdExec(UINT a) {
     log("BngRwIsCmdExec(%i)\n", a);
-    return 0xFFFFFFFF;
+    // return 0xFFFFFFFF;
+    return 0;
 }
 
 UINT BngRwGetTotalRetryCount(UINT a) {

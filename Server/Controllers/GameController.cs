@@ -14,7 +14,7 @@ public class GameController : BaseController<GameController>
         Logger.LogInformation("Request is {Request}", request.Stringify());
         var response = new Response
         {
-            Type = MethodType.MthdRegisterPcb,
+            Type = request.Type,
             RequestId = request.RequestId,
             Error = Error.Success
         };
@@ -33,7 +33,7 @@ public class GameController : BaseController<GameController>
                         new Response.RegisterPcb.ServerInfo
                         {
                             ServerType = ServerType.SrvMatch,
-                            Uri = "vsapi.taiko-p.jp",
+                            Uri = "vsapi.taiko-p.jp/match",
                             Port = 12345
                         }
                     },
@@ -181,6 +181,13 @@ public class GameController : BaseController<GameController>
             case MethodType.MthdCheckMovieRelease:
                 response.check_movie_release = new Response.CheckMovieRelease();
                 return Ok(response);
+            case MethodType.MthdLoadSpotUrl:
+                response.load_spot_url = new Response.LoadSpotUrl
+                {
+                    Url = "https://example.com", 
+                    Qrcode = "https://example.com"
+                };
+                return Ok(response);
             case MethodType.MthdRegisterCard:
             case MethodType.MthdSaveVsmResult:
             case MethodType.MthdSaveVsmOnResult:
@@ -197,7 +204,6 @@ public class GameController : BaseController<GameController>
             case MethodType.MthdLoadAccessCode:
             case MethodType.MthdUsePCoinTicket:
             case MethodType.MthdLoadSpotInfo:
-            case MethodType.MthdLoadSpotUrl:
             case MethodType.MthdLoadReplayCard:
             case MethodType.MthdPreSaveReplay:
             case MethodType.MthdLoadMeetingCard:
