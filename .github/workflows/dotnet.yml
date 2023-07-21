@@ -29,8 +29,8 @@ jobs:
     - name: dotnet publish
       run: |
         dotnet publish -c Release -r win-x64 -o publish
-    - name: upload artifact
     - uses: actions/upload-artifact@v3
+    - name: upload artifact
       with:
         name: exvs2-poc
         path: /home/runner/work/EXVS2-POC/EXVS2-POC/Server/publish/
