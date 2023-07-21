@@ -28,7 +28,7 @@ jobs:
       run: dotnet build --no-restore
     - name: dotnet publish
       run: |
-        dotnet publish -c Release -r win-x64 -o publish --self-contained
+        dotnet publish -c Release -r win-x64 -o publish --self-contained true
     - uses: actions/upload-artifact@v3
       with:
         name: exvs2-poc
