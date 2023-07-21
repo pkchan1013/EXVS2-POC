@@ -152,7 +152,7 @@ public class GameController : BaseController<GameController>
                         NoAttackDecreaseScore = 1
                     }
                 };
-                response.load_game_data.ReleaseCpuCourses.AddRange(Enumerable.Range(1, 50).Select(i => 
+                response.load_game_data.ReleaseCpuCourses.AddRange(Enumerable.Range(1, 100).Select(i => 
                     new Response.LoadGameData.ReleaseCpuCourse
                     {
                         CourseId = (uint)i,
