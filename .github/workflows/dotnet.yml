@@ -28,4 +28,8 @@ jobs:
       run: dotnet build --no-restore
     - name: dotnet publish
       run: |
-        dotnet publish -c Release -o POC 
+        dotnet publish -c Release -r win-x64 -o publish
+    - uses: actions/upload-artifact@v3
+      with:
+        name: exvs2-poc
+        path: ./publish
