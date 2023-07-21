@@ -47,13 +47,13 @@ public class GameController : BaseController<GameController>
                     }
                 };
                 Logger.LogInformation("Response: {Response}", response.Stringify());
-                return Ok(response);
+                break;
             case MethodType.MthdRegisterPcbAck:
                 response.register_pcb_ack = new Response.RegisterPcbAck();
-                return Ok(response);
+                break;
             case MethodType.MthdSaveInsideData:
                 response.save_inside_data = new Response.SaveInsideData();
-                return Ok(response);
+                break;
             case MethodType.MthdPing:
                 response.ping = new Response.Ping
                 {
@@ -62,20 +62,20 @@ public class GameController : BaseController<GameController>
                     MatchmakingServer = false,
                     ResponseAt = (ulong)DateTimeOffset.Now.ToUnixTimeSeconds()
                 };
-                return Ok(response);
+                break;
             case MethodType.MthdCheckTime:
                 response.check_time = new Response.CheckTime
                 {
                     At = (ulong)DateTimeOffset.Now.ToUnixTimeSeconds()
                 };
-                return Ok(response);
+                break;
             case MethodType.MthdCheckResourceData:
                 response.check_resource_data = new Response.CheckResourceData();
-                return Ok(response);
+                break;
             case MethodType.MthdLoadGameData:
                 response.load_game_data = new Response.LoadGameData
                 {
-                    ReleaseMsIds = new []{1u, 2u, 3u},
+                    ReleaseMsIds = Enumerable.Range(1, 300).Select(i => (uint)i).ToArray(),// new []{1u, 2u, 3u},
                     NewMsIds = new []{1u,2u,3u},
                     DisplayableMsIds = new []{1u,2u,3u},
                     ReleaseGuestNavIds = new []{1u,2u},
@@ -94,14 +94,6 @@ public class GameController : BaseController<GameController>
                         new Response.LoadGameData.EchelonTable
                         {
                             EchelonId = 1
-                        }
-                    },
-                    ReleaseCpuCourses =
-                    {
-                        new Response.LoadGameData.ReleaseCpuCourse
-                        {
-                            CourseId = 1,
-                            OpenedAt = (ulong)(DateTimeOffset.Now - TimeSpan.FromDays(10)).ToUnixTimeSeconds()
                         }
                     },
                     ReleaseCpuScenes = new []{1u,2u},
@@ -160,7 +152,13 @@ public class GameController : BaseController<GameController>
                         NoAttackDecreaseScore = 1
                     }
                 };
-                return Ok(response);
+                response.load_game_data.ReleaseCpuCourses.AddRange(Enumerable.Range(1, 5).Select(i => 
+                    new Response.LoadGameData.ReleaseCpuCourse
+                    {
+                        CourseId = (uint)i,
+                        OpenedAt = (ulong)(DateTimeOffset.Now - TimeSpan.FromDays(10)).ToUnixTimeSeconds()
+                    }));
+                break;
             case MethodType.MthdLoadRankMatch:
                 response.load_rank_match = new Response.LoadRankMatch
                 {
@@ -177,16 +175,16 @@ public class GameController : BaseController<GameController>
                     ExxThresholdOrder = 1,
                     ExxThresholdPoint = 1
                 };
-                return Ok(response);
+                break;
             case MethodType.MthdSaveLog:
                 response.save_log = new Response.SaveLog
                 {
                     LoadGameDataVer = 1
                 };
-                return Ok(response);
+                break;
             case MethodType.MthdCheckCommunication:
                 response.check_communication = new Response.CheckCommunication();
-                return Ok(response);
+                break;
             case MethodType.MthdLoadBlackList:
                 response.load_black_list = new Response.LoadBlackList
                 {
@@ -196,46 +194,71 @@ public class GameController : BaseController<GameController>
                     MaxBlacklistNum = 1,
                     ThresholdDelayedFrame = 5
                 };
-                return Ok(response);
+                break;
             case MethodType.MthdSaveTournamentResult:
                 response.save_tournament_result = new Response.SaveTournamentResult();
-                return Ok(response);
+                break;
             case MethodType.MthdLoadRanking:
                 response.load_ranking = new Response.LoadRanking();
-                return Ok(response);
+                break;
             case MethodType.MthdCheckTelop:
                 response.check_telop = new Response.CheckTelop
                 {
                     Telop1Id = 1
                 };
-                return Ok(response);
+                break;
             case MethodType.MthdLoadTelop:
                 response.load_telop = new Response.LoadTelop
                 {
                     TelopData = "Test telop"
                 };
-                return Ok(response);
+                break;
             case MethodType.MthdCheckMovieRelease:
                 response.check_movie_release = new Response.CheckMovieRelease();
-                return Ok(response);
+                break;
             case MethodType.MthdLoadSpotUrl:
                 response.load_spot_url = new Response.LoadSpotUrl
                 {
                     Url = "https://example.com", 
                     Qrcode = "https://example.com"
                 };
-                return Ok(response);
-            case MethodType.MthdRegisterCard:
-            case MethodType.MthdSaveVsmResult:
-            case MethodType.MthdSaveVsmOnResult:
-            case MethodType.MthdSaveVscResult:
-            case MethodType.MthdSaveVstResult:
-            case MethodType.MthdSaveVsmToResult:
-            case MethodType.MthdSaveCharge:
-            case MethodType.MthdSaveMedal:
+                break;
             case MethodType.MthdSaveBattleLog:
+                response.save_battle_log = new Response.SaveBattleLog();
+                break;
             case MethodType.MthdSaveBattleLogOn:
+                response.save_battle_log_on = new Response.SaveBattleLogOn();
+                break;
+            case MethodType.MthdSaveVsmResult:
+                response.save_vsm_result = new Response.SaveVsmResult();
+                break;
+            case MethodType.MthdSaveVsmOnResult:
+                response.save_vsm_on_result = new Response.SaveVsmOnResult();
+                break;
+            case MethodType.MthdSaveVscResult:
+                response.save_vsc_result = new Response.SaveVscResult();
+                break;
+            case MethodType.MthdSaveVstResult:
+                response.save_vst_result = new Response.SaveVstResult();
+                break;
+            case MethodType.MthdSaveVsmToResult:
+                response.save_vsm_to_result = new Response.SaveVsmToResult();
+                break;
+            case MethodType.MthdSaveCharge:
+                response.save_charge = new Response.SaveCharge();
+                foreach (var unused in request.save_charge.ChargeDatas)
+                {
+                    response.save_charge.SaveChargeResults.Add(new Response.SaveCharge.SaveChargeResult
+                    {
+                        hc2_error = nue.protocol.exvs.Response.SaveCharge.SaveChargeResult.Hc2Error.Hc2Success
+                    });
+                }
+                break;
             case MethodType.MthdSaveUserPlayResearchData:
+                response.save_user_play_research_data = new Response.SaveUserPlayResearchData();
+                break;
+            case MethodType.MthdRegisterCard:
+            case MethodType.MthdSaveMedal:
             case MethodType.MthdSaveResultCapture:
             case MethodType.MthdSaveFailedBattleLogOn:
             case MethodType.MthdLoadAccessCode:
@@ -250,6 +273,8 @@ public class GameController : BaseController<GameController>
             default:
                 return NotFound();
         }
+
+        return Ok(response);
     }
 
     [Route("")]
