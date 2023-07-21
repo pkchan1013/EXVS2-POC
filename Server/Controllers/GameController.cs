@@ -75,7 +75,7 @@ public class GameController : BaseController<GameController>
             case MethodType.MthdLoadGameData:
                 response.load_game_data = new Response.LoadGameData
                 {
-                    ReleaseMsIds = Enumerable.Range(1, 300).Select(i => (uint)i).ToArray(),// new []{1u, 2u, 3u},
+                    ReleaseMsIds = Enumerable.Range(1, 400).Select(i => (uint)i).ToArray(),// new []{1u, 2u, 3u},
                     NewMsIds = new []{1u,2u,3u},
                     DisplayableMsIds = new []{1u,2u,3u},
                     ReleaseGuestNavIds = new []{1u,2u},
@@ -133,7 +133,7 @@ public class GameController : BaseController<GameController>
                     OfflineLoseResultBonus = 1,
                     ReplayUnderRankId = 1,
                     AdvancedReplayUnderRankId = 1,
-                    WantedDownLevel = 1,
+                    WantedDownLevel = 0, // this will cause enemy to 1 hit down if set to 1
                     WantedAttackLevel = 1,
                     WantedPsAttackLevel = 1,
                     WantedPsDefenceLevel = 1,
@@ -152,7 +152,7 @@ public class GameController : BaseController<GameController>
                         NoAttackDecreaseScore = 1
                     }
                 };
-                response.load_game_data.ReleaseCpuCourses.AddRange(Enumerable.Range(1, 5).Select(i => 
+                response.load_game_data.ReleaseCpuCourses.AddRange(Enumerable.Range(1, 50).Select(i => 
                     new Response.LoadGameData.ReleaseCpuCourse
                     {
                         CourseId = (uint)i,
