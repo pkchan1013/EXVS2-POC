@@ -25,10 +25,10 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build --self-contained --no-restore
     - name: dotnet publish
       run: |
-        dotnet publish -c Release -r win-x64 -o publish
+        dotnet publish -c Release -r win-x64 -o publish --self-contained
     - uses: actions/upload-artifact@v3
       with:
         name: exvs2-poc
