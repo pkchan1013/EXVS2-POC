@@ -10,6 +10,8 @@
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.9" />
         <PackageReference Include="protobuf-net" Version="3.2.26" />
         <PackageReference Include="protobuf-net.AspNetCore" Version="3.2.12" />
+        <PackageReference Include="Serilog.AspNetCore" Version="7.0.0" />
+        <PackageReference Include="Serilog.Expressions" Version="3.4.2-dev-00120" />
         <PackageReference Include="SharpZipLib" Version="1.4.2" />
         <PackageReference Include="Swan.Core" Version="7.0.0-beta.2" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
