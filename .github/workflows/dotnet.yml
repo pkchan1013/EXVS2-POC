@@ -25,7 +25,7 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
-      run: dotnet build --self-contained --no-restore
+      run: dotnet build --no-restore
     - name: dotnet publish
       run: |
         dotnet publish -c Release -r win-x64 -o publish --self-contained
