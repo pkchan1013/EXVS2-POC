@@ -51,6 +51,8 @@ public class GameController : BaseController<GameController>
             MethodType.MthdSaveCharge           => await mediator.Send(new SaveChargeCommand(request)),
             MethodType.MthdSaveUserPlayResearchData =>
                 await mediator.Send(new SaveUserPlayResearchDataCommand(request)),
+            MethodType.MthdPreLoadCard          => await mediator.Send(new PreLoadCardQuery(request)),
+            MethodType.MthdRegisterCard         => await mediator.Send(new RegisterCardCommand(request)),
             _ => UnhandledResponse(request)
         };
 
