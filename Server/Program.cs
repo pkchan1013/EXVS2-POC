@@ -17,6 +17,9 @@ try
         configuration.WriteTo.Console().ReadFrom.Configuration(context.Configuration);
     });
 
+    builder.Services.AddMediatR(cfg => {
+        cfg.RegisterServicesFromAssembly(typeof(Program).Assembly);
+    });
     builder.Services.AddControllers().AddProtoBufNet();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
     builder.Services.AddEndpointsApiExplorer();
