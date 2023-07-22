@@ -1,2 +1,2 @@
 ﻿#pragma once
-void InitDXGIWindowHook();
+void InitDXGIWindowHook(bool windowed);

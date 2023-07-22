@@ -120,6 +120,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AssemblyDebug>false</AssemblyDebug>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -167,6 +168,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="banapass.cpp" />
+    <ClCompile Include="ConfigReader.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="GameHooks.cpp" />
     <ClCompile Include="JvsEmu.cpp" />
@@ -176,10 +178,12 @@
     <ClCompile Include="libs\minhook\src\hook.c" />
     <ClCompile Include="libs\minhook\src\trampoline.c" />
     <ClCompile Include="log.cpp" />
+    <ClCompile Include="VirtualKeyMapping.cpp" />
     <ClCompile Include="WindowedDxgi.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="banapass.h" />
+    <ClInclude Include="ConfigReader.h" />
     <ClInclude Include="GameHooks.h" />
     <ClInclude Include="INIReader.h" />
     <ClInclude Include="JvsEmu.h" />
@@ -200,6 +204,7 @@
     <ClInclude Include="libs\minhook\src\trampoline.h" />
     <ClInclude Include="log.h" />
     <ClInclude Include="random.h" />
+    <ClInclude Include="VirtualKeyMapping.h" />
     <ClInclude Include="WindowedDxgi.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

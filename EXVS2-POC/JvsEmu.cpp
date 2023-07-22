@@ -378,6 +378,7 @@ int handleTaito05Call(jprot_encoder *r)
 	return 3;
 }
 
+jvs_key_bind key_bind;
 int handleReadSwitchInputs(jprot_encoder *r)
 {
 	BYTE byte0 = 0;
@@ -439,67 +440,67 @@ int handleReadSwitchInputs(jprot_encoder *r)
 		MAP_BUTTON(XINPUT_GAMEPAD_A, byte2, 6); // Button 4
 	}
 
-	if (GetAsyncKeyState('T') & 0x8000)
+	if (GetAsyncKeyState(key_bind.Test) & 0x8000)
 	{
 		log("Test Pressed");
 		byte0 |= static_cast<char>(1 << 7);
 	}
 
-	if (GetAsyncKeyState('O') & 0x8000)
+	if (GetAsyncKeyState(key_bind.Start) & 0x8000)
 	{
 		log("Start Pressed");
 		byte1 |= static_cast<char>(1 << 7);
 	}
 
-	if (GetAsyncKeyState('S') & 0x8000)
+	if (GetAsyncKeyState(key_bind.Service) & 0x8000)
 	{
 		log("Service Pressed");
 		byte1 |= static_cast<char>(1 << 6);
 	}
 
-	if (GetAsyncKeyState(VK_UP) & 0x8000)
+	if (GetAsyncKeyState(key_bind.Up) & 0x8000)
 	{
 		log("Up Pressed");
 		byte1 |= static_cast<char>(1 << 5);
 	}
 
-	if (GetAsyncKeyState(VK_LEFT) & 0x8000)
+	if (GetAsyncKeyState(key_bind.Left) & 0x8000)
 	{
 		log("Left Pressed");
 		byte1 |= static_cast<char>(1 << 3);
 	}
 
-	if (GetAsyncKeyState(VK_DOWN) & 0x8000)
+	if (GetAsyncKeyState(key_bind.Down) & 0x8000)
 	{
 		log("Down Pressed");
 		byte1 |= static_cast<char>(1 << 4);
 	}
 
-	if (GetAsyncKeyState(VK_RIGHT) & 0x8000)
+	if (GetAsyncKeyState(key_bind.Right) & 0x8000)
 	{
 		log("Right Pressed");
 		byte1 |= static_cast<char>(1 << 2);
 	}
 
-	if (GetAsyncKeyState('Z') & 0x8000)
+	if (GetAsyncKeyState(key_bind.Button1) & 0x8000)
 	{
 		log("Button 1 Pressed");
 		byte1 |= static_cast<char> (1 << 1);
 	}
 
-	if (GetAsyncKeyState('X') & 0x8000)
+	if (GetAsyncKeyState(key_bind.Button2) & 0x8000)
 	{
 		log("Button 2 Pressed");
 		byte1 |= static_cast<char> (1);
 	}
 
-	if (GetAsyncKeyState('C') & 0x8000)
+	if (GetAsyncKeyState(key_bind.Button3) & 0x8000)
 	{
 		log("Button 3 Pressed");
 		byte2 |= static_cast<char> (1 << 7);
 	}
 
-	if (GetAsyncKeyState('V') & 0x8000)
+	if (GetAsyncKeyState(key_bind.Button4) & 0x8000)
 	{
 		log("Button 4 Pressed");
 		byte2 |= static_cast<char> (1 << 6);
@@ -934,8 +935,10 @@ HANDLE __stdcall CreateFileWWrap(LPCWSTR lpFileName,
 		hTemplateFile);
 }*/
 
-void InitializeJvs()
+void InitializeJvs(jvs_key_bind keyBind)
 {
+	key_bind = keyBind;
+
 	MH_Initialize();
 	MH_CreateHookApi(L"kernel32.dll", "WriteFile", WriteFileWrap, reinterpret_cast<void**>(&g_origWriteFile));
 	MH_CreateHookApi(L"kernel32.dll", "ReadFile", ReadFileWrap, reinterpret_cast<void**>(&g_origReadFile));

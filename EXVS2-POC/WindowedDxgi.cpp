@@ -19,9 +19,10 @@
 
 #include "injector.hpp"
 #include "MinHook.h"
+#include "ConfigReader.h"
 
 // Local variables
-static bool Windowed = true;
+static bool Windowed = false;
 
 // Prototypes
 static HRESULT(STDMETHODCALLTYPE* g_oldSetFullscreenState)(IDXGISwapChain* This, BOOL Fullscreen, IDXGIOutput* pTarget);
@@ -234,8 +235,10 @@ static HRESULT WINAPI D3D11CreateDeviceAndSwapChainWrap(IDXGIAdapter* pAdapter, 
 	return hr;
 }
 
-void InitDXGIWindowHook()
+void InitDXGIWindowHook(bool windowed)
 {
+	Windowed = windowed;
+
 	MH_Initialize();
 	MH_CreateHookApi(L"dxgi.dll", "CreateDXGIFactory", CreateDXGIFactoryWrap, (void**)&g_origCreateDXGIFactory);
 	MH_CreateHookApi(L"dxgi.dll", "CreateDXGIFactory2", CreateDXGIFactory2Wrap, (void**)&g_origCreateDXGIFactory2);
