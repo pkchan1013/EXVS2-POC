@@ -48,9 +48,6 @@
     <ClCompile Include="WindowedDxgi.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ConfigReader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="VirtualKeyMapping.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -120,9 +117,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="WindowedDxgi.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ConfigReader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="VirtualKeyMapping.h">

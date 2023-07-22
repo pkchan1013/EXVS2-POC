@@ -385,61 +385,6 @@ int handleReadSwitchInputs(jprot_encoder *r)
 	BYTE byte1 = 0;
 	BYTE byte2 = 0;
 
-	// TODO: Make the inputs/deadzones configurable.
-	XINPUT_STATE xinput_state = {};
-	if (XInputGetState(0, &xinput_state) == ERROR_SUCCESS) {
-		WORD buttons = xinput_state.Gamepad.wButtons;
-
-		bool up = false;
-		bool down = false;
-		bool left = false;
-		bool right = false;
-
-		if (buttons & XINPUT_GAMEPAD_DPAD_UP) {
-			up = true;
-		}
-		if (buttons & XINPUT_GAMEPAD_DPAD_DOWN) {
-			down = true;
-		}
-		if (buttons & XINPUT_GAMEPAD_DPAD_LEFT) {
-			left = true;
-		}
-		if (buttons & XINPUT_GAMEPAD_DPAD_RIGHT) {
-			right = true;
-		}
-
-		// If there are any D-Pad inputs, ignore the stick.
-		if (!(up || down || left || right)) {
-			if (xinput_state.Gamepad.sThumbLX < -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE) {
-				left = true;
-			}
-			else if (xinput_state.Gamepad.sThumbLX > XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE) {
-				right = true;
-			}
-
-			if (xinput_state.Gamepad.sThumbLY < -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE) {
-				down = true;
-			}
-			else if (xinput_state.Gamepad.sThumbLY > XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE) {
-				up = true;
-			}
-		}
-
-#define MAP(value, byte, shift) if (value) byte |= static_cast<char>(1 << shift)
-#define MAP_BUTTON(button, byte, shift) MAP((buttons & button), byte, shift)
-		MAP(up, byte1, 5);
-		MAP(down, byte1, 4);
-		MAP(left, byte1, 3);
-		MAP(right, byte1, 2);
-
-		MAP_BUTTON(XINPUT_GAMEPAD_BACK, byte0, 7); // Test
-		MAP_BUTTON(XINPUT_GAMEPAD_START, byte1, 7); // Start
-		MAP_BUTTON(XINPUT_GAMEPAD_X, byte1, 1); // Button 1
-		MAP_BUTTON(XINPUT_GAMEPAD_Y, byte1, 0); // Button 2
-		MAP_BUTTON(XINPUT_GAMEPAD_RIGHT_SHOULDER, byte2, 7); // Button 3
-		MAP_BUTTON(XINPUT_GAMEPAD_A, byte2, 6); // Button 4
-	}
-
 	if (GetAsyncKeyState(key_bind.Test) & 0x8000)
 	{
 		log("Test Pressed");

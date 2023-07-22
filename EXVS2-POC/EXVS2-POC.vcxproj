@@ -168,7 +168,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="banapass.cpp" />
-    <ClCompile Include="ConfigReader.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="GameHooks.cpp" />
     <ClCompile Include="JvsEmu.cpp" />
@@ -183,7 +182,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="banapass.h" />
-    <ClInclude Include="ConfigReader.h" />
     <ClInclude Include="GameHooks.h" />
     <ClInclude Include="INIReader.h" />
     <ClInclude Include="JvsEmu.h" />

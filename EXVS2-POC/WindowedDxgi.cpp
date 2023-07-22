@@ -19,7 +19,6 @@
 
 #include "injector.hpp"
 #include "MinHook.h"
-#include "ConfigReader.h"
 
 // Local variables
 static bool Windowed = false;

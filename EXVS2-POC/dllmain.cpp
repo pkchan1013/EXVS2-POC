@@ -5,94 +5,76 @@
 #include "GameHooks.h"
 #include "JvsEmu.h"
 #include "WindowedDxgi.h"
-#include "ConfigReader.h"
+#include "INIReader.h"
 #include "VirtualKeyMapping.h"
 
 struct config_struct {
+    jvs_key_bind key_bind;
     bool Windowed;
 } config;
 
-config_struct ReadConfigs(cppsecrets::ConfigReader* p) {
+config_struct ReadConfigs(INIReader reader) {
     config_struct config;
 
-    // parse the configuration file
-    p->parseFile();
+    config.Windowed = reader.GetBoolean("config", "windowed", false);
 
-    // Define variables to store the value
-    std::string windowed("");
-
-    // Assign config variable
-    p->getValue("Windowed", windowed);
-
-    bool isWindowed = false;
-    isWindowed = (windowed.compare("true") == 0);
-    config.Windowed = isWindowed;
-
-    return config;
-}
-
-jvs_key_bind ReadKeyMappings(cppsecrets::ConfigReader* p) {
     jvs_key_bind key_bind;
+    std::string keyMapPlaceholder;
 
-    // default values
-    key_bind.Test = 'T';
-    key_bind.Start = 'O';
-    key_bind.Service = 'S';
-    key_bind.Up = VK_UP;
-    key_bind.Left = VK_LEFT;
-    key_bind.Down = VK_DOWN;
-    key_bind.Right = VK_RIGHT;
-    key_bind.Button1 = 'Z';
-    key_bind.Button2 = 'X';
-    key_bind.Button3 = 'C';
-    key_bind.Button4 = 'V';
-
-    // parse key mapping config file
-    p->parseFile("KeyMapping.ini");
-
-    std::string keyMapPlaceholder("");
-
-    // read the values and modify the key_bind variable in JvsEmu
-    p->getValue("Test", keyMapPlaceholder);
+    keyMapPlaceholder = reader.Get("keybind", "Test", "T");
     key_bind.Test = findKeyByValue(keyMapPlaceholder);
-    p->getValue("Start", keyMapPlaceholder);
+
+    keyMapPlaceholder = reader.Get("keybind", "Start", "O");
     key_bind.Start = findKeyByValue(keyMapPlaceholder);
-    p->getValue("Service", keyMapPlaceholder);
+
+    keyMapPlaceholder = reader.Get("keybind", "Service", "S");
     key_bind.Service = findKeyByValue(keyMapPlaceholder);
-    p->getValue("Up", keyMapPlaceholder);
+
+    keyMapPlaceholder = reader.Get("keybind", "Up", "Up");
     key_bind.Up = findKeyByValue(keyMapPlaceholder);
-    p->getValue("Left", keyMapPlaceholder);
+
+    keyMapPlaceholder = reader.Get("keybind", "Left", "Left");
     key_bind.Left = findKeyByValue(keyMapPlaceholder);
-    p->getValue("Down", keyMapPlaceholder);
+
+    keyMapPlaceholder = reader.Get("keybind", "Down", "Down");
     key_bind.Down = findKeyByValue(keyMapPlaceholder);
-    p->getValue("Right", keyMapPlaceholder);
+
+    keyMapPlaceholder = reader.Get("keybind", "Right", "Right");
     key_bind.Right = findKeyByValue(keyMapPlaceholder);
-    p->getValue("Button1", keyMapPlaceholder);
+
+    keyMapPlaceholder = reader.Get("keybind", "Button1", "Z");
     key_bind.Button1 = findKeyByValue(keyMapPlaceholder);
-    p->getValue("Button2", keyMapPlaceholder);
+
+    keyMapPlaceholder = reader.Get("keybind", "Button2", "X");
     key_bind.Button2 = findKeyByValue(keyMapPlaceholder);
-    p->getValue("Button3", keyMapPlaceholder);
+
+    keyMapPlaceholder = reader.Get("keybind", "Button3", "C");
     key_bind.Button3 = findKeyByValue(keyMapPlaceholder);
-    p->getValue("Button4", keyMapPlaceholder);
+
+    keyMapPlaceholder = reader.Get("keybind", "Button3", "V");
     key_bind.Button4 = findKeyByValue(keyMapPlaceholder);
 
-    return key_bind;
+    config.key_bind = key_bind;
+    return config;
 }
 
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReserved)
 {
     // Read config
-    // Create object of the class ConfigReader
-    cppsecrets::ConfigReader* p = cppsecrets::ConfigReader::getInstance();
+    // todo: consolidate items from GameHooks.cpp
+    INIReader reader("config.ini");
 
-    config_struct config = ReadConfigs(p);
-    jvs_key_bind keyBind = ReadKeyMappings(p);
+    config_struct config;
+    if (reader.ParseError() == 0)
+    {
+        config = ReadConfigs(reader);
+    }
 
     switch (ul_reason_for_call)
     {
     case DLL_PROCESS_ATTACH:
         InitializeHooks();
-        InitializeJvs(keyBind);
+        InitializeJvs(config.key_bind);
         InitDXGIWindowHook(config.Windowed);
         break;
     case DLL_THREAD_ATTACH:
