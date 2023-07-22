@@ -73,19 +73,20 @@ public class GameController : BaseController<GameController>
                 response.check_resource_data = new Response.CheckResourceData();
                 break;
             case MethodType.MthdLoadGameData:
+                var allMsIds = Enumerable.Range(1, 400).Select(i => (uint)i).ToArray();
                 response.load_game_data = new Response.LoadGameData
                 {
-                    ReleaseMsIds = Enumerable.Range(1, 400).Select(i => (uint)i).ToArray(), // ms unlock ids
+                    ReleaseMsIds = allMsIds, // ms unlock ids
                     NewMsIds = Array.Empty<uint>(), // responsible for showing ms under "new" series
-                    DisplayableMsIds = Array.Empty<uint>(), 
-                    ReleaseGuestNavIds = new [] { 1u, 2u },
+                    DisplayableMsIds = allMsIds, // responsible for triad battle ai enemy units
+                    ReleaseGuestNavIds = allMsIds, // responsible for triad battle ai partners
                     ReleaseGameRules = new []{ 1u, 2u },
                     UpdateMsIds = Array.Empty<uint>(), // add a 'update' tag to ms
                     on_vs_info = new Response.LoadGameData.OnVsInfo
                     {
-                        RuleTimeLimitRank = 20,
-                        RuleTimeLimitCasual = 20,
-                        RuleTimeLimitEx = 20,
+                        RuleTimeLimitRank = 230, // player match time in seconds
+                        RuleTimeLimitCasual = 230, 
+                        RuleTimeLimitEx = 230,
                         RuleDamageLevelTeam = 1,
                         RuleDamageLevelShuffle = 1
                     },
