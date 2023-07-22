@@ -75,12 +75,12 @@ public class GameController : BaseController<GameController>
             case MethodType.MthdLoadGameData:
                 response.load_game_data = new Response.LoadGameData
                 {
-                    ReleaseMsIds = Enumerable.Range(1, 400).Select(i => (uint)i).ToArray(),// new []{1u, 2u, 3u},
-                    NewMsIds = new []{1u,2u,3u},
-                    DisplayableMsIds = new []{1u,2u,3u},
-                    ReleaseGuestNavIds = new []{1u,2u},
-                    ReleaseGameRules = new []{1u,2u},
-                    UpdateMsIds = new []{1u},
+                    ReleaseMsIds = Enumerable.Range(1, 400).Select(i => (uint)i).ToArray(), // ms unlock ids
+                    NewMsIds = Array.Empty<uint>(), // responsible for showing ms under "new" series
+                    DisplayableMsIds = Array.Empty<uint>(), 
+                    ReleaseGuestNavIds = new [] { 1u, 2u },
+                    ReleaseGameRules = new []{ 1u, 2u },
+                    UpdateMsIds = Array.Empty<uint>(), // add a 'update' tag to ms
                     on_vs_info = new Response.LoadGameData.OnVsInfo
                     {
                         RuleTimeLimitRank = 20,
@@ -121,7 +121,7 @@ public class GameController : BaseController<GameController>
                     
                     ReplayUnderEchelonId = 1,
                     AdvancedReplayUnderEchelonId = 1,
-                    TrainingTimeLimit = 20,
+                    TrainingTimeLimit = 12, // training mode's countdown time in minutes
                     PcoinLoseExpRelaxationRate = 1,
                     PcoinTeamGpIncreaseRate = 1,
                     NewcardCampaignFlag = true,
