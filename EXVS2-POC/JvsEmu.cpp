@@ -6,8 +6,6 @@
 #include <queue>
 #include <sstream>
 
-#pragma comment(lib, "Winmm")
-
 #include "log.h"
 #include "MinHook.h"
 
@@ -385,112 +383,91 @@ int handleReadSwitchInputs(jprot_encoder *r)
 	BYTE byte2 = 0;
 
 	JOYINFOEX joy;
-	if(joyGetPosEx(1, &joy) == JOYERR_NOERROR)
+	joy.dwSize = sizeof(joy);
+	joy.dwFlags = JOY_RETURNALL;
+	for (UINT joystickIndex = 0; joystickIndex < 16; ++joystickIndex)
 	{
-		log("Joystick 1 exists");
-		if(joy.dwPOV == 0)
+		if(joyGetPosEx(joystickIndex, &joy) == JOYERR_NOERROR)
 		{
-			log("Up Detected from Joystick");
-			byte1 |= static_cast<char>(1 << 5);
-		}
-		if(joy.dwPOV == 4500)
-		{
-			log("Up Right Detected from Joystick");
-			byte1 |= static_cast<char>(1 << 5);
-			byte1 |= static_cast<char>(1 << 2);
-		}
-		if(joy.dwPOV == 9000)
-		{
-			log("Right Detected from Joystick");
-			byte1 |= static_cast<char>(1 << 2);
-		}
-		if(joy.dwPOV == 13500)
-		{
-			log("Right Down Detected from Joystick");
-			byte1 |= static_cast<char>(1 << 2);
-			byte1 |= static_cast<char>(1 << 4);
-		}
-		if(joy.dwPOV == 18000)
-		{
-			log("Down Detected from Joystick");
-			byte1 |= static_cast<char>(1 << 4);
-		}
-		if(joy.dwPOV == 22500)
-		{
-			log("Down Left Detected from Joystick");
-			byte1 |= static_cast<char>(1 << 4);
-			byte1 |= static_cast<char>(1 << 3);
-		}
-		if(joy.dwPOV == 27000)
-		{
-			log("Left Detected from Joystick");
-			byte1 |= static_cast<char>(1 << 3);
-		}
-		if(joy.dwPOV == 31500)
-		{
-			log("Top Left Detected from Joystick");
-			byte1 |= static_cast<char>(1 << 3);
-			byte1 |= static_cast<char>(1 << 5);
-		}
-		if (joy.dwButtons == 1)
-		{
-			log("Button 1 Detected from Joystick");
-			byte1 |= static_cast<char> (1 << 1);
-		}
-		if (joy.dwButtons == 8)
-		{
-			log("Button 2 Detected from Joystick");
-			byte1 |= static_cast<char> (1);
-		}
-		if (joy.dwButtons == 32)
-		{
-			log("Button 3 Detected from Joystick");
-			byte2 |= static_cast<char> (1 << 7);
-		}
-		if (joy.dwButtons == 2)
-		{
-			log("Button 4 Detected from Joystick");
-			byte2 |= static_cast<char> (1 << 6);
-		}
-		if (joy.dwButtons == 512)
-		{
-			log("Start Button Detected from Joystick");
-			byte1 |= static_cast<char>(1 << 7);
-		}
-		if (joy.dwButtons == 16)
-		{
-			log("Service Button Detected from Joystick");
-			byte1 |= static_cast<char>(1 << 6);
-		}
-		if (joy.dwButtons == 64)
-		{
-			log("Test Button Detected from Joystick");
-			byte0 |= static_cast<char>(1 << 7);
-		}
-		if (joy.dwButtons == 9)
-		{
-			log("A + B Detected");
-			byte1 |= static_cast<char> (1 << 1);
-			byte1 |= static_cast<char> (1);
-		}
-		if (joy.dwButtons == 40)
-		{
-			log("B + C Detected");
-			byte1 |= static_cast<char> (1);
-			byte2 |= static_cast<char> (1 << 7);
-		}
-		if (joy.dwButtons == 33)
-		{
-			log("A + C Detected");
-			byte1 |= static_cast<char> (1 << 1);
-			byte2 |= static_cast<char> (1 << 7);
-		}
-		if (joy.dwButtons == 41)
-		{
-			log("A + B + C Detected");
-			byte1 |= static_cast<char> (1 << 1);
-			byte1 |= static_cast<char> (1);
-			byte2 |= static_cast<char> (1 << 7);
+			if(joy.dwPOV == 0)
+			{
+				log("Up Detected from Joystick");
+				byte1 |= static_cast<char>(1 << 5);
+			}
+			if(joy.dwPOV == 4500)
+			{
+				log("Up Right Detected from Joystick");
+				byte1 |= static_cast<char>(1 << 5);
+				byte1 |= static_cast<char>(1 << 2);
+			}
+			if(joy.dwPOV == 9000)
+			{
+				log("Right Detected from Joystick");
+				byte1 |= static_cast<char>(1 << 2);
+			}
+			if(joy.dwPOV == 13500)
+			{
+				log("Right Down Detected from Joystick");
+				byte1 |= static_cast<char>(1 << 2);
+				byte1 |= static_cast<char>(1 << 4);
+			}
+			if(joy.dwPOV == 18000)
+			{
+				log("Down Detected from Joystick");
+				byte1 |= static_cast<char>(1 << 4);
+			}
+			if(joy.dwPOV == 22500)
+			{
+				log("Down Left Detected from Joystick");
+				byte1 |= static_cast<char>(1 << 4);
+				byte1 |= static_cast<char>(1 << 3);
+			}
+			if(joy.dwPOV == 27000)
+			{
+				log("Left Detected from Joystick");
+				byte1 |= static_cast<char>(1 << 3);
+			}
+			if(joy.dwPOV == 31500)
+			{
+				log("Top Left Detected from Joystick");
+				byte1 |= static_cast<char>(1 << 3);
+				byte1 |= static_cast<char>(1 << 5);
+			}
+			if (joy.dwButtons & 1)
+			{
+				log("Button 1 Detected from Joystick");
+				byte1 |= static_cast<char> (1 << 1);
+			}
+			if (joy.dwButtons & 8)
+			{
+				log("Button 2 Detected from Joystick");
+				byte1 |= static_cast<char> (1);
+			}
+			if (joy.dwButtons & 32)
+			{
+				log("Button 3 Detected from Joystick");
+				byte2 |= static_cast<char> (1 << 7);
+			}
+			if (joy.dwButtons & 2)
+			{
+				log("Button 4 Detected from Joystick");
+				byte2 |= static_cast<char> (1 << 6);
+			}
+			if (joy.dwButtons & 512)
+			{
+				log("Start Button Detected from Joystick");
+				byte1 |= static_cast<char>(1 << 7);
+			}
+			if (joy.dwButtons & 16)
+			{
+				log("Service Button Detected from Joystick");
+				byte1 |= static_cast<char>(1 << 6);
+			}
+			if (joy.dwButtons & 64)
+			{
+				log("Test Button Detected from Joystick");
+				byte0 |= static_cast<char>(1 << 7);
+			}
 		}
 	}
 
