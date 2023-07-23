@@ -32,6 +32,36 @@ public class LoadCardQueryHandler : IRequestHandler<LoadCardQuery, Response>
                         DamageDisplay = true,
                         CpuAutoGuard = false,
                         CommandGuideDisplay = true
+                    },
+                    MsSkills =
+                    {
+                        {
+                            new Response.LoadCard.PilotDataGroup.MSSkillGroup()
+                                {
+                                    MstMobileSuitId = 1,
+                                    MsUsedNum = 5000,
+                                    CostumeId = 1u,
+                                    TriadBuddyPoint = 0
+                                }
+                        },
+                        {
+                            new Response.LoadCard.PilotDataGroup.MSSkillGroup()
+                            {
+                                MstMobileSuitId = 123, // Gundam Seed Destiny, Strike Freedom Gundam, Kira Yamato (CE73)
+                                MsUsedNum = 5000,
+                                CostumeId = 1u, // 1u for Casual CE73 Kira Yamato, 0u for Normal Suit
+                                TriadBuddyPoint = 0
+                            }
+                        },
+                        {
+                            new Response.LoadCard.PilotDataGroup.MSSkillGroup()
+                            {
+                                MstMobileSuitId = 124, // Gundam Seed Destiny, Infinite Justice Gundam, Athrun Zala (CE73)
+                                MsUsedNum = 5000,
+                                CostumeId = 1u, // 1u for Orb Athrun Zala, 0u for Normal Suit
+                                TriadBuddyPoint = 0
+                            }
+                        }
                     }
                 },
             }
