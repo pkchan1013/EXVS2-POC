@@ -51,7 +51,7 @@ config_struct ReadConfigs(INIReader reader) {
     keyMapPlaceholder = reader.Get("keybind", "Button3", "C");
     key_bind.Button3 = findKeyByValue(keyMapPlaceholder);
 
-    keyMapPlaceholder = reader.Get("keybind", "Button3", "V");
+    keyMapPlaceholder = reader.Get("keybind", "Button4", "V");
     key_bind.Button4 = findKeyByValue(keyMapPlaceholder);
 
     config.key_bind = key_bind;
