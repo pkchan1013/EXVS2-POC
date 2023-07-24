@@ -40,7 +40,24 @@
         "OpenRecord": 1,
         "OpenEchelon": 0,
         "OpenSkillpoint": true,
-        "customize_group": null,
+        "customize_group": {
+            "DefaultTitleCustomize": {
+                "TitleTextId": 0,
+                "TitleOrnamentId": 0,
+                "TitleEffectId": 0,
+                "TitleBackgroundPartsId": 0
+            },
+            "MstMobileSuitId": 123,
+            "MsSkill1": 18,
+            "MsSkill2": 21,
+            "GpBoost": true,
+            "GuestNavBoost": true,
+            "TagSkillPointBoostFlag": true,
+            "BattleNavAdviseFlag": true,
+            "BattleNavNotifyFlag": true,
+            "RandomTitleFlag": false,
+            "GuestNavAnnivFlag": false
+        },
         "GuestNavs": [{
                 "GuestNavSettingFlag": true,
                 "GuestNavId": 29,
