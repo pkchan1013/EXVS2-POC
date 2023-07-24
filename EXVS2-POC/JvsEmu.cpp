@@ -433,40 +433,31 @@ int handleReadSwitchInputs(jprot_encoder *r)
 				byte1 |= static_cast<char>(1 << 3);
 				byte1 |= static_cast<char>(1 << 5);
 			}
-			if (joy.dwButtons & 1)
+			int intJoyDwButtons = (int) joy.dwButtons;
+			if (intJoyDwButtons & key_bind.ArcadeButton1)
 			{
 				log("Button 1 Detected from Joystick");
 				byte1 |= static_cast<char> (1 << 1);
 			}
-			if (joy.dwButtons & 8)
+			if (intJoyDwButtons & key_bind.ArcadeButton2)
 			{
 				log("Button 2 Detected from Joystick");
 				byte1 |= static_cast<char> (1);
 			}
-			if (joy.dwButtons & 32)
+			if (intJoyDwButtons & key_bind.ArcadeButton3)
 			{
 				log("Button 3 Detected from Joystick");
 				byte2 |= static_cast<char> (1 << 7);
 			}
-			if (joy.dwButtons & 2)
+			if (intJoyDwButtons & key_bind.ArcadeButton4)
 			{
 				log("Button 4 Detected from Joystick");
 				byte2 |= static_cast<char> (1 << 6);
 			}
-			if (joy.dwButtons & 512)
+			if (intJoyDwButtons & key_bind.ArcadeStartButton)
 			{
 				log("Start Button Detected from Joystick");
 				byte1 |= static_cast<char>(1 << 7);
-			}
-			if (joy.dwButtons & 16)
-			{
-				log("Service Button Detected from Joystick");
-				byte1 |= static_cast<char>(1 << 6);
-			}
-			if (joy.dwButtons & 64)
-			{
-				log("Test Button Detected from Joystick");
-				byte0 |= static_cast<char>(1 << 7);
 			}
 		}
 	}

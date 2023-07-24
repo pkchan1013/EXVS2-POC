@@ -12,6 +12,11 @@ struct jvs_key_bind {
 	int Button2;
 	int Button3;
 	int Button4;
+	int ArcadeButton1;
+	int ArcadeButton2;
+	int ArcadeButton3;
+	int ArcadeButton4;
+	int ArcadeStartButton;
 };
 
 void InitializeJvs(jvs_key_bind keyBind);
