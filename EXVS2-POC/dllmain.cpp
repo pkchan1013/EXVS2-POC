@@ -54,6 +54,21 @@ config_struct ReadConfigs(INIReader reader) {
     keyMapPlaceholder = reader.Get("keybind", "Button4", "V");
     key_bind.Button4 = findKeyByValue(keyMapPlaceholder);
 
+    keyMapPlaceholder = reader.Get("keybind", "ArcadeButton1", "1");
+    key_bind.ArcadeButton1 = std::stoi(keyMapPlaceholder);
+
+    keyMapPlaceholder = reader.Get("keybind", "ArcadeButton2", "2");
+    key_bind.ArcadeButton2 = std::stoi(keyMapPlaceholder);
+    
+    keyMapPlaceholder = reader.Get("keybind", "ArcadeButton3", "3");
+    key_bind.ArcadeButton3 = std::stoi(keyMapPlaceholder);
+
+    keyMapPlaceholder = reader.Get("keybind", "ArcadeButton4", "4");
+    key_bind.ArcadeButton4 = std::stoi(keyMapPlaceholder);
+
+    keyMapPlaceholder = reader.Get("keybind", "ArcadeStartButton", "5");
+    key_bind.ArcadeStartButton = std::stoi(keyMapPlaceholder);
+
     config.key_bind = key_bind;
     return config;
 }
